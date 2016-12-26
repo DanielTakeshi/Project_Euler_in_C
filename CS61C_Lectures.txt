@@ -1,5 +1,205 @@
-Auguts 25, 2016
+CS 61C Lecture Review
+Fall 2016 Semester
 
-Lecture 1: Course Introduction
+**********************************
+* Lecture 1: Course Introduction *
+* Given: August 25, 2016         *
+**********************************
+
+Lecture is about four things, well, three that matter to me: (1) machine
+structures, (2) great ideas (in architecture), and (3) how everything is just a
+number!
+
+Machine Structures
+
+    C is the most popular programming language, followed by Python. Use C to
+    write software for speed/performance, e.g. embedded systems.
+
+    This class isn't about C programming, but C is a VERY important language to
+    know in order to understand the important stuff: the **hardware-software
+    interface**. It's closer to the hardware than Java or Python.
+
+    Things we'll learn on the software side:
+        Parallel requests 
+        Parallel threads
+        Parallel instructions
+        Parallel data
+        Hardware descriptions
+
+    and the hardware side:
+        Logic gates
+        Main memory
+        Cores
+        Caches
+        Instruction Units
+
+    Looks like the "new version/face" of CS 61C is parallelism, as I should know
+    from CS 267.
+
+Great Ideas in Architecture
+
+    Abstraction (heck, this was Phil Guo's one-word description of CS!!)
+
+        Anything can be represented as a number.  But does this mean we WANT
+        them to be like that?  No, we want to program in a "high-level" like C
+        (LOL!) so that we don't have to trudge through assembly language code.
+
+        We follow this hierarchy: 
+            ==> C
+            ==> compiler
+            ==> assembly language (then machine language??)
+            ==> machine interpretation
+            ==> architecture implementation (the logic circuit diagram?)
+            (I don't fully understand assembly/architecture parts)
+
+    Moore's Law (is it still applicable?!?)
+
+        Basic idea: every 2 years (sometimes I've seen it 1.5 years ...) the
+        number of transistors per chip will double. Transistors are the basic
+        source of computation in computers, they're the bits of electricity that
+        turn into 0s and 1s. From Wikipedia: 
+            "A transistor is a semiconductor device used to amplify or switch
+            electronic signals and electrical power. It is composed of
+            semiconductor material usually with at least three terminals for
+            connection to an external circuit. A voltage or current applied to
+            one pair of the transistor's terminals controls the current through
+            another pair of terminals. Because the controlled (output) power can
+            be higher than the controlling (input) power, a transistor can
+            amplify a signal", 
+        and 
+            "The transistor is the fundamental building block of modern
+            electronic devices, and is ubiquitous in modern electronic systems."
+
+        However, as one would imagine, if you try to pack more and more
+        transistors in a smaller area, it will be exponentially more costly, and
+        I think there will be issues with heat.
+
+    Principles of Locality (memory hierarchy and caches!!)
+
+        Jim Gray's storage latency analogy. I've seen this one before. It's
+        really nice. Everyone has a nice joke to play about caches. Main thing
+        to know is what is actually in the hierarchy:
+            - Registers
+            - On-chip cache
+            - On-board cache
+            - Main memory (i.e. RAM)
+            - Hard disk
+            - Tape and optical robot (not sure what this means)
+        Also see the pyramid in the notes. It makes sense: the stuff "closer" to
+        us in the hierarchy just listed above has to be smaller since there's
+        less room. Thus, registers are cramped in a small space and are limited,
+        but there's much more room for memory on the hard disk. 
+        
+        It seems like we have three main caches: L1, L2, and L3. Not sure on the
+        difference between on-chip vs on-board cache, though. That might be
+        on-chip (as in on the CPU?) vs on the MOTHERboard. As I (finally!!) now
+        know from experience, the CPU chip goes in the motherboard in a very
+        specific spot.
+
+    Parallelism (CS 267!!)
+        
+        This is another thing we should do if possible. We can "fork" calls into
+        several "workers" and then "join" them together later.
+
+        Caveat: Amdahl's law. It tries to predict speed-ups from parallelism.
+        The law states the obvious: if there are parts of an application which
+        cannot be parallelized, then we can't get "perfect" speedup, which
+        hypothetically would be a 2x speedup if we had 2x parallelism.
+
+    Dependency via Reproducibility (should be obvious!)
+
+        The larger our system, the more likely we have individual components 
+        that fail.
+
+        Easiest thing to do: take majority vote, this helps to protect against
+        faulty machines. Redundant memory bits as well; these are Error
+        Correcting Codes (ECCs). Can also do calculations involving the parity
+        of a number (odd vs even) so we have a spare piece of memory which
+        corrects the expected parity as needed. 
+
+(Then have some stuff about class administration. Yeah, I won't post any
+homeworks publicly, they'll be private. =).)
+
+Everything is Just a Number
+
+    Computers represent data as binary values.
+        The *bit* is the unit element, either 0 or 1.
+        Then *bytes* are eight bits, can represent 2^8 = 256 different values.
+        A "word" is 4 bytes (i.e. 32 bits), has 2^32 different values, like Java
+            integers.
+        Then there are 64-bit floating point numbers (and 32-bit as well), numpy
+            can express both though the Theano library encourages 32-bit.
+        All of these are built up into longer and more complicated expressions!
+
+    Be sure to MEMORIZE how to convert: (binary <==> decimal). This is so
+    important to have down cold. I'm definitely intuitively better at going in
+    the ==> direction, just write the number then underneath, going in REVERSE
+    direction, do 2^0, 2^1, etc., then multiply by 1s and 0s and add up. Other
+    direction: keep successively dividing by two and keep track of parities.
+
+    Unfortunately, there's also the hexadecimal notation. That's harder. Now
+    there are 16 different units, not 2 or 10. It goes from 0 to 9 and then we
+    note it as A=10, B=11, C=12, D=13, E=14, F=15. Obviously, I wrote the
+    decimal numbers afterwards, could have easily done the binary version.
+        - There are also octals, with 8 units of computation. 
+        - I'll avoid using these whenever possible.
+
+    How to use these numbers in C?
+        Use %d for decimal (I know this now!)
+        Use %x for hexadecimal
+        Use %o for octal
+    Might also have to write numbers with 0x[...] and 0b[...] with 0x or 0b
+    prefix to indicate which representation we're using.
+
+    Beyond bytes, we have kilobytes, gigabytes, etc. Notice that marketing will
+    assume we multiply by 1000, i.e. kilobytes are 1000 bytes. But in reality we
+    "should" have 1024 bytes per kilobytes. Marketing can get away with not
+    including that extra 24. Grrr. For the binary system, we use an extra "i",
+    so it's KiByte, instead of KByte. And 1GB = 1000MB and 1GiB = 1024MiB.
+    Watch out!
+
+Signed integer representation
+
+    We need to have negative numbers, after all!
+
+    First attempt: first digit (well, leading digit, so leftmost) represents
+        sign, remaining 7 (assuming 8 bits total) are for actual numerical
+        content, "magnitude". But that's bad.
+
+    Better: two's complement. With 4 bits, have 16 total numbers:
+        0 1 2 3 4 5 6 7  8  9 10 11 12 13 14 15
+                        -8 -7 -6 -5 -4 -3 -2 -1 
+
+    Thus, -3 in decimal maps to 13 in binary. This allows us to keep
+    adding/subtraction rules for binary numbers consistent. Right, this is
+    StackOverflow: "Two's complement is a clever way of storing integers so
+    that common math problems are very simple to implement."
+
+    Actually, from their slides, looks like "both" -8 to -1 and 8 to 15 are
+    represented when doing math. There's no special rules needed, they can
+    refer to both numbers. Interesting ... but there would probably need to
+    be some rule to handle overflow. WAIT no, those scenarios make a clear
+    distinction between the unsigned vs signed case. I think it's safe to
+    assume the signed case, always. Otherwise we'd ignore negatives.
+
+    That was helpful, we can REVERSE the role of 0s and 1s, so 1111 = -1,
+    then 1110 = -2, 1101 = -3, and so on. Then when adding numbers, we
+    ignore overflow (assuming it's possible ...) and look at our four bits
+    and it should work out.
+
+    And if you look carefully, our most significant bit (MSB) also indicates
+    the sign, as in our first representation, but doesn't have the drawback
+    of painful math or a +0 and -0 annoyance. Great!
+
+    Yes, as I saw you have to handle overflow. But with two's complement, if
+    signs are different, no overflow detection needed (this makes sense, you
+    can't add a positive and a negative number and get something exceeding
+    your range, that's like a shrinkage factor).
 
 
+**************************
+* Lecture 2: C Language  *
+* Given: August 30, 2016 *
+**************************
+
+TODO
