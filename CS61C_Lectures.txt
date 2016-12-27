@@ -380,12 +380,94 @@ Pointers in C
 
         PS: I really like their four-column table approach, really helps
 
-Arrays in C
+Arrays in C (syntactic sugar for pointers, really)
+
+    Several ways to declare basic arrays:
+        int a[5]; // five integer array, obviously, but contents are garbage
+        int b = {1,2,3}; // explicitly assign elements, not garbage =)
+
+    In memory diagram: form contiguous block of memory, index 0 at bottom, then
+    proceeding up we increment indices. 
+
+    #1 way we can shoot ourselves in the foot: no array bounds checking.
+        So remember array sizes, e.g. by using:
+            const int ARRAY_SIZE = 10;
+        and then using that ARRAY_SIZE throughout the program. Don't repeat
+        yourself!
+
+        Helpful to also use sizeof() operator to get number of bytes. I use this
+        frequently. But we can't assume anything about the hardware, other than
+        sizeof(char) == 1. Don't assume: use sizeof(...) instead!
 
 Pointer Arithmetic
 
+    PS: for computers, use byte addresses, so think of memory for an int as
+    taking up four slots, because (at least in one example and on my machine) C
+    ints are 4 bytes.
+
+    I see, we can do stuff like:
+        char c[] = {'a','b'};
+        char *pc = c; // from webcast, also same as &(c[0])
+    so pc is now a char* type, and *pc = 'a'. If we do *pc++; then pc = 'b'. The
+    POINTER is incremented, not the value pointed by it. Yeah, it's confusing,
+    this time we actually want to manipulate the address.
+
+    The array name is a pointer to the 0th element of the "array".
+        char *pstr;
+        char astr[];
+    are identical except we can do pstr++ while we can't do astr++.
+        ALSO: astr[2] = *(astr+2)
+
+    OH I see, when we do pc++ the compiler actually adds sizeof(...) and takes
+    care of that logic for us; it doesn't really "add one". Thanks!
+
+    Bad style to interchange arrays and pointers.
+
+    For methods, you can define them in the following ways:
+        foo(int[] array, unsigned int size);
+        foo(int *array, unsigned int size);
+
+    Be careful when doing sizeof(a) with 'a' an array, because that might
+    represent a pointer, which is usually 8 bytes on modern 64-bit machines. But
+    if you start with int a[40] and do sizeof(a) you actually get
+    10*sizeof(int), that's weird.
+
+    No sense to do so and is also illegal, don't do the following:
+        - Add two pointers
+        - Multiply two pointers
+        - Subtracting a pointer from an integer
+    We CAN, however, compare pointers to NULL, for instance (keyword might be
+    'null' in C).
+
+    Pointers to pointers also exist. Oh no.
+
 Strings and Main
+
+    C strings are "null terminated character arrays":
+        char s[] = 'abc';
+    To find the length, iterate through the string and increment an index.
+    Detect end of string with '0' or whatever special character we have.
+
+    Don't forget the alternative way of writing main() methods with arguments:
+        int main(int argc, char *argv[]) {...}
+    argv is a POINTER ... (of type char*) ... TO AN ARRAY (that contains the
+    string arguments from the command line). The argc is simply the number of
+    arguments.
+
+        When we run ./a.out, the './a.out' part is argv[0], other arguments
+        after that go in later components, in order. It's similar to Python.
 
 Concluding Remarks
 
+    Pointers are the same as (machine) memory addresses.
+    Except for void*, pointers know the type and size of the objects they point
+        to (is this why sizeof(a) for 'int a[10]' is known? Not sure).
+    Pointers are powerful, but dangerous without careful planning.
 
+
+********************************
+* Lecture 4: Memory Management *
+* Given: September 6, 2016     *
+********************************
+
+TODO
