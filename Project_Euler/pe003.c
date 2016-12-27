@@ -2,9 +2,9 @@
  * PE 003: Largest prime factor. The solution is correct as it is, with the
  * following times:
  * 
- *  real   0m0.004s
- *  user   0m0.001s
- *  sys    0m0.002s
+ * real   0m0.017s
+ * user   0m0.002s
+ * sys    0m0.001s
  * 
  * Though I think if the numbers get much larger, it would be better to use a
  * sieve instead of iterating through the factors. This code uses the fact that

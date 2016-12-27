@@ -1,8 +1,8 @@
 /**
  * PE 007: 10001st prime number. Wow, this works and was faster than I thought:
  * 
- * real   0m0.004s
- * user   0m0.001s
+ * real   0m0.059s
+ * user   0m0.035s
  * sys    0m0.002s
  *
  * Though again, I better start using sieves soon ... maybe some of the harder
