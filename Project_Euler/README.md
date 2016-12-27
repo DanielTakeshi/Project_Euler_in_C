@@ -12,3 +12,7 @@ The first command creates the executable file, a.out, which we then run using
 
 An alternative to clang is using gcc, but clang is the default C (and C++)
 compiler for Macs.
+
+By the way, when I finish programs, I should record the output from the time
+command, just to make sure I'm seeing solutions on the order of 1 second or
+less.
