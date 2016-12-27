@@ -45,7 +45,7 @@ long long getProduct(int *numArray, int startIndex) {
 int main(void) 
 {
     FILE *myFile;
-    myFile = fopen("pe008.txt", "r");
+    myFile = fopen("files/pe008.txt", "r");
 
     // We know it's 1000 characters. Let's put them in an array.
     int numArray[numChars];
