@@ -320,3 +320,72 @@ Concluding Thoughts
     that in C we have explicit pointers. Let's discuss that in the next lecture.
 
     There are additional differences in the compilation, obviously.
+
+
+****************************
+* Lecture 3: Pointers      *
+* Given: September 1, 2016 *
+****************************
+
+Pointers in C
+
+    Processor vs Memory in computer, two different components.
+        Former has registers, ALU, etc.
+        Latter contains various bytes that form the programs, data, etc.
+
+    Don't confuse memory address and a value. It's like humans are the 'values'
+    living in their homes as 'memory addresses'. A POINTER is a MEMORY ADDRESS.
+        When we say int a; then a = -85;, the memory address is some unknown
+        integer and the value is -85.
+
+    Know differences:
+        int *x;         // variable x is an address to an int
+        int y = 9;      // y is an int with value 9
+        x = &y;         // assigns *address of* (almost certainly not 9) y to x
+        int z = *x;     // assigns *value of* x (should be 9) to z
+        *x = -7;        // Assigns -7 to what x is pointing at
+
+    Interesting, I get x=1505581164 y=-7 z=9 as the printf output, so when we
+    set the memory address of y to x, and modify what x is pointing at, that
+    will *also* modify what y points at. Interesting ... and a bit of a pain to
+    track.
+
+    Another thing, the type of x is 'int*', NOT 'int'. Watch out! It might be
+    helpful to visualize this the way CS 61C does with its charts. Can write
+    int* pi; or int *pi;, seems like the class does it the latter. It's
+    unambiguous especially for char *a,*b; vs char* a,b;, in which case that 'b'
+    is NOT a pointer to a char.
+
+        Use generic pointers for applications such as allocating or freeing
+        memory, where the code may need to point to arbitrary stuff.
+
+        Have pointers to structs as well, which is where we get the arrow syntax
+        "->" that I've seen before.
+
+        Another trick: *(&a) = a, I believe.
+
+    One thing, if we do '*pa = 5', this is NOT assigning to 'pa' but rather
+    '*pa'. It doesn't really make sense to assign directly to 'pa' unless we
+    know a memory address. Do we really want to gamble that '5' is indeed the
+    correct _memory_address_ and not _value_?
+
+    Functions
+        These have pointers too. For arguments:
+            void foo(int x, int *p) { ... }
+        To call it, use:
+            foo(a, &b);
+        where a and b are both ints. The 'b' will get "passed by reference",
+        since the pointer is passed by value. So it's like Java. There are a ton
+        of blogs about this online.
+
+        PS: I really like their four-column table approach, really helps
+
+Arrays in C
+
+Pointer Arithmetic
+
+Strings and Main
+
+Concluding Remarks
+
+
